@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:41:36
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-06 22:41:39
+ * @LastEditTime: 2022-06-07 07:35:01
  */
 package util
 
@@ -35,7 +35,7 @@ func GenerateToken(username, password string, authority int) (string, error) {
 		authority,
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
-			Issuer:    "cmall",
+			Issuer:    "xmall",
 		},
 	}
 
