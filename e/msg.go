@@ -3,9 +3,9 @@
  * @Author: neozhang
  * @Date: 2022-06-07 06:59:59
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 07:47:38
+ * @LastEditTime: 2022-06-07 11:48:19
  */
-package status
+package e
 
 // MsgFlags 状态码map
 var MsgFlags = map[int]string{

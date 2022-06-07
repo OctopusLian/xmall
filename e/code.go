@@ -3,9 +3,9 @@
  * @Author: neozhang
  * @Date: 2022-06-07 06:59:26
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 07:47:33
+ * @LastEditTime: 2022-06-07 11:48:13
  */
-package status
+package e
 
 const (
 	SUCCESS                 = 200

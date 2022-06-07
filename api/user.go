@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:39:37
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 07:50:39
+ * @LastEditTime: 2022-06-07 17:19:23
  */
 package api
 
@@ -16,20 +16,10 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator"
 )
 
 // ErrorResponse 返回错误消息
 func ErrorResponse(err error) serializer.Response {
-	if ve, ok := err.(validator.ValidationErrors); ok {
-		for _, e := range ve {
-			return serializer.Response{
-				Status: 40001,
-				Msg:    "",
-				Error:  fmt.Sprint(err),
-			}
-		}
-	}
 	if _, ok := err.(*json.UnmarshalTypeError); ok {
 		return serializer.Response{
 			Status: 40001,
@@ -57,4 +47,39 @@ func UserRegister(c *gin.Context) {
 		c.JSON(200, ErrorResponse(err))
 		logging.Info(err)
 	}
+}
+
+// UserLogin 用户登录接口
+func UserLogin(c *gin.Context) {
+	session := sessions.Default(c)
+	userID := session.Get("userId")
+	var service service.UserService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Login(userID)
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
+	}
+}
+
+// UserUpdate 用户修改信息
+func UserUpdate(c *gin.Context) {
+	var service service.UserService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Update()
+		c.JSON(200, res)
+
+	} else {
+		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
+	}
+}
+
+// CheckToken
+func CheckToken(c *gin.Context) {
+	c.JSON(200, serializer.Response{
+		Status: 200,
+		Msg:    "ok",
+	})
 }

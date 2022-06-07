@@ -3,13 +3,13 @@
  * @Author: neozhang
  * @Date: 2022-06-07 07:08:46
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 07:09:55
+ * @LastEditTime: 2022-06-07 17:11:00
  */
 package middleware
 
 import (
 	"time"
-	"xmall/status"
+	"xmall/e"
 	"xmall/util"
 
 	"github.com/gin-gonic/gin"
@@ -28,15 +28,15 @@ func JWT() gin.HandlerFunc {
 		} else {
 			claims, err := util.ParseToken(token)
 			if err != nil {
-				code = status.ERROR_AUTH_CHECK_TOKEN_FAIL
+				code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
 			} else if time.Now().Unix() > claims.ExpiresAt {
-				code = status.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
+				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
 			}
 		}
-		if code != status.SUCCESS {
+		if code != e.SUCCESS {
 			c.JSON(200, gin.H{
 				"status": code,
-				"msg":    status.GetMsg(code),
+				"msg":    e.GetMsg(code),
 				"data":   data,
 			})
 
@@ -54,25 +54,25 @@ func JWTAdmin() gin.HandlerFunc {
 		var code int
 		var data interface{}
 
-		code = status.SUCCESS
+		code = e.SUCCESS
 		token := c.GetHeader("Authorization")
 		if token == "" {
-			code = status.INVALID_PARAMS
+			code = e.INVALID_PARAMS
 		} else {
 			claims, err := util.ParseToken(token)
 			if err != nil {
-				code = status.ERROR_AUTH_CHECK_TOKEN_FAIL
+				code = e.ERROR_AUTH_CHECK_TOKEN_FAIL
 			} else if time.Now().Unix() > claims.ExpiresAt {
-				code = status.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
+				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
 			} else if claims.Authority == 0 {
-				code = status.ERROR_AUTH_INSUFFICIENT_AUTHORITY
+				code = e.ERROR_AUTH_INSUFFICIENT_AUTHORITY
 			}
 		}
 
-		if code != status.SUCCESS {
+		if code != e.SUCCESS {
 			c.JSON(200, gin.H{
 				"status": code,
-				"msg":    status.GetMsg(code),
+				"msg":    e.GetMsg(code),
 				"data":   data,
 			})
 
