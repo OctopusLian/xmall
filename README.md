@@ -3,9 +3,11 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:23:01
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-06 22:45:19
+ * @LastEditTime: 2022-06-07 23:51:19
 -->
 # XMall电子商城  
+
+使用Golang完成一个企业级的电商系统，前端，电商服务端，电商后台管理系统，小程序端，安卓端全部打通。  
 
 ## 技术栈  
 
