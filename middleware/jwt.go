@@ -47,3 +47,39 @@ func JWT() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+// JWTAdmin token验证中间件
+func JWTAdmin() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var code int
+		var data interface{}
+
+		code = status.SUCCESS
+		token := c.GetHeader("Authorization")
+		if token == "" {
+			code = status.INVALID_PARAMS
+		} else {
+			claims, err := util.ParseToken(token)
+			if err != nil {
+				code = status.ERROR_AUTH_CHECK_TOKEN_FAIL
+			} else if time.Now().Unix() > claims.ExpiresAt {
+				code = status.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
+			} else if claims.Authority == 0 {
+				code = status.ERROR_AUTH_INSUFFICIENT_AUTHORITY
+			}
+		}
+
+		if code != status.SUCCESS {
+			c.JSON(200, gin.H{
+				"status": code,
+				"msg":    status.GetMsg(code),
+				"data":   data,
+			})
+
+			c.Abort()
+			return
+		}
+
+		c.Next()
+	}
+}
