@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:44:15
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 17:58:39
+ * @LastEditTime: 2022-06-07 18:08:30
  */
 package router
 
@@ -20,6 +20,7 @@ func NewRouter() *gin.Engine {
 	{
 		v1.POST("user/register", api.UserRegister) // 用户注册
 		v1.POST("user/login", api.UserLogin)       // 用户登录
+		v1.GET("notices", api.ShowNotice)          //查看公告详情
 		// 需要登录保护的
 		authed := v1.Group("/")
 		authed.Use(middleware.JWT())
@@ -38,7 +39,8 @@ func NewRouter() *gin.Engine {
 		authed2 := v2.Group("/")
 		authed2.Use(middleware.JWTAdmin())
 		{
-
+			authed2.POST("notices", api.CreateNotice) //创建公告
+			authed2.PUT("notices", api.UpdateNotice)  //更新公告
 		}
 	}
 
