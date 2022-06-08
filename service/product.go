@@ -2,7 +2,7 @@
  * @Author: neozhang
  * @Date: 2022-06-07 18:17:14
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 18:28:25
+ * @LastEditTime: 2022-06-08 22:21:58
  * @Description: 请填写简介
  */
 package service
@@ -25,6 +25,7 @@ type ProductService struct {
 	DiscountPrice string `form:"discount_price" json:"discount_price"`
 	Limit         int    `form:"limit" json:"limit"`
 	Start         int    `form:"start" json:"start"`
+	Search        string `form:"search" json:"search"`
 }
 
 // Create 创建商品
@@ -172,5 +173,60 @@ func (service *ProductService) Update() serializer.Response {
 	return serializer.Response{
 		Status: code,
 		Msg:    e.GetMsg(code),
+	}
+}
+
+func (service *ProductService) Show(id string) serializer.Response {
+	var product model.Product
+	code := e.SUCCESS
+	err := model.DB.First(&product, id).Error
+	if err != nil {
+		logging.Info(err)
+		code = e.ERROR_DATABASE
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+			Error:  err.Error(),
+		}
+	}
+
+	return serializer.Response{
+		Status: code,
+		Msg:    e.GetMsg(code),
+		Data:   serializer.BuildProduct(product),
+	}
+}
+
+//搜索商品
+func (service *ProductService) Searchs() serializer.Response {
+	products := []model.Product{}
+	code := e.SUCCESS
+
+	err := model.DB.Where("name LIKE ?", "%"+service.Search+"%").Find(&products).Error
+	if err != nil {
+		logging.Info(err)
+		code = e.ERROR_DATABASE
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+			Error:  err.Error(),
+		}
+	}
+	products1 := []model.Product{}
+	err = model.DB.Where("info LIKE ?", "%"+service.Search+"%").Find(&products1).Error
+	if err != nil {
+		logging.Info(err)
+		code = e.ERROR_DATABASE
+		return serializer.Response{
+			Status: code,
+			Msg:    e.GetMsg(code),
+			Error:  err.Error(),
+		}
+	}
+	products = append(products, products1...)
+	return serializer.Response{
+		Status: code,
+		Msg:    e.GetMsg(code),
+		Data:   serializer.BuildProducts(products),
 	}
 }

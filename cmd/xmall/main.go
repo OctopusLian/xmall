@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-07 06:51:57
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 23:48:11
+ * @LastEditTime: 2022-06-08 22:00:51
  */
 package main
 
@@ -17,5 +17,5 @@ func main() {
 	conf.Init()
 	//初始化路由
 	r := router.NewRouter()
-	r.Run(":3000")
+	r.Run(":8001")
 }
