@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:44:15
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-09 15:52:36
+ * @LastEditTime: 2022-06-09 16:17:41
  */
 package router
 
@@ -38,6 +38,10 @@ func NewRouter() *gin.Engine {
 			v1.GET("favorites/:id", api.ShowFavorites)  //新建收藏
 			v1.POST("favorites", api.CreateFavorite)    //创建收藏
 			v1.DELETE("favorites", api.DeleteFavorite)  //删除收藏
+			v1.POST("carts", api.CreateCart)            //加入购物车
+			v1.GET("carts/:id", api.ShowCarts)          //购物车详情
+			v1.PUT("carts", api.UpdateCart)             //修改购物车信息
+			v1.DELETE("carts", api.DeleteCart)          //删除购物车
 		}
 	}
 	//管理员
