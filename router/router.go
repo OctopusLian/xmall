@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:44:15
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-09 15:30:27
+ * @LastEditTime: 2022-06-09 15:52:36
  */
 package router
 
@@ -16,6 +16,7 @@ import (
 
 func NewRouter() *gin.Engine {
 	r := gin.Default()
+	//用户
 	v1 := r.Group("/api/v1")
 	{
 		v1.POST("/user/register", api.UserRegister) // 用户注册
@@ -34,18 +35,21 @@ func NewRouter() *gin.Engine {
 			v1.GET("/addresses/:id", api.ShowAddresses) //展示收货地址
 			v1.PUT("/addresses", api.UpdateAddress)     //修改收货地址
 			v1.DELETE("/addresses", api.DeleteAddress)  //删除收货地址
+			v1.GET("favorites/:id", api.ShowFavorites)  //新建收藏
+			v1.POST("favorites", api.CreateFavorite)    //创建收藏
+			v1.DELETE("favorites", api.DeleteFavorite)  //删除收藏
 		}
-
-		v0 := r.Group("/api/v0")
+	}
+	//管理员
+	v0 := r.Group("/api/v0")
+	{
+		v0.POST("/register", api.AdminRegister) // 管理员注册
+		v0.POST("/login", api.AdminLogin)       // 管理员登录
+		//登录验证
+		v0.Use(middleware.JWTAdmin())
 		{
-			v0.POST("/register", api.AdminRegister) // 管理员注册
-			v0.POST("/login", api.AdminLogin)       // 管理员登录
-			//登录验证
-			v0.Use(middleware.JWTAdmin())
-			{
-				v0.POST("/notices", api.CreateNotice) //创建公告
-				v0.PUT("/notices", api.UpdateNotice)  //更新公告
-			}
+			v0.POST("/notices", api.CreateNotice) //创建公告
+			v0.PUT("/notices", api.UpdateNotice)  //更新公告
 		}
 	}
 
