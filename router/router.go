@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:44:15
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-09 16:30:44
+ * @LastEditTime: 2022-06-09 17:26:04
  */
 package router
 
@@ -21,14 +21,16 @@ func NewRouter() *gin.Engine {
 	{
 		v1.POST("/user/register", api.UserRegister) // 用户注册
 		v1.POST("/user/login", api.UserLogin)       // 用户登录
+		v1.GET("/products", api.ListProducts)       //查询商品列表
+		v1.GET("products/:id", api.ShowProduct)     //商品详情
+		v1.GET("/notices", api.ShowNotice)          //查看公告详情
+		v1.GET("carousels", api.ListCarousels)      //获取轮播图
 
 		// 需要登录保护的
 		v1.Use(middleware.JWT())
 		{
 			v1.GET("/ping", api.CheckToken)             //验证token
 			v1.PUT("/user", api.UserUpdate)             //用户更新操作
-			v1.GET("/notices", api.ShowNotice)          //查看公告详情
-			v1.GET("/products", api.ListProducts)       //查询商品列表
 			v1.GET("/products/:id", api.ShowProduct)    //查询一个商品的详情
 			v1.POST("/searches", api.SearchProducts)    //搜索商品
 			v1.POST("/addresses", api.CreateAddress)    //创建收获地址
@@ -55,8 +57,9 @@ func NewRouter() *gin.Engine {
 		//登录验证
 		v0.Use(middleware.JWTAdmin())
 		{
-			v0.POST("/notices", api.CreateNotice) //创建公告
-			v0.PUT("/notices", api.UpdateNotice)  //更新公告
+			v0.POST("/notices", api.CreateNotice)    //创建公告
+			v0.PUT("/notices", api.UpdateNotice)     //更新公告
+			v0.POST("carousels", api.CreateCarousel) //创建轮播图
 		}
 	}
 
