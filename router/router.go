@@ -1,9 +1,9 @@
 /*
- * @Description:
+ * @Description:商城后端route
  * @Author: neozhang
  * @Date: 2022-06-06 22:44:15
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-09 17:26:04
+ * @LastEditTime: 2022-06-09 22:32:59
  */
 package router
 
@@ -22,7 +22,7 @@ func NewRouter() *gin.Engine {
 		v1.POST("/user/register", api.UserRegister) // 用户注册
 		v1.POST("/user/login", api.UserLogin)       // 用户登录
 		v1.GET("/products", api.ListProducts)       //查询商品列表
-		v1.GET("products/:id", api.ShowProduct)     //商品详情
+		v1.GET("product/:id", api.ShowProduct)      //商品详情
 		v1.GET("/notices", api.ShowNotice)          //查看公告详情
 		v1.GET("carousels", api.ListCarousels)      //获取轮播图
 

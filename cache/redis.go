@@ -2,13 +2,12 @@
  * @Author: neozhang
  * @Date: 2022-06-09 16:22:34
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-09 16:22:34
+ * @LastEditTime: 2022-06-09 22:34:06
  * @Description: 请填写简介
  */
 package cache
 
 import (
-	"os"
 	"strconv"
 	"xmall/logging"
 
@@ -20,10 +19,10 @@ var RedisClient *redis.Client
 
 // Redis 在中间件中初始化redis链接
 func Redis() {
-	db, _ := strconv.ParseUint(os.Getenv("REDIS_DB"), 10, 64)
+	db, _ := strconv.ParseUint("0", 10, 64)
 	client := redis.NewClient(&redis.Options{
-		Addr:     os.Getenv("REDIS_ADDR"),
-		Password: os.Getenv("REDIS_PW"),
+		Addr:     "127.0.0.1:6379",
+		Password: "",
 		DB:       int(db),
 	})
 

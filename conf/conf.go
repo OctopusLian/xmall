@@ -3,13 +3,12 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:38:18
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-06 22:38:22
+ * @LastEditTime: 2022-06-09 22:33:47
  */
 package conf
 
 import (
-	"os"
-
+	"xmall/cache"
 	"xmall/model"
 
 	"github.com/joho/godotenv"
@@ -21,5 +20,6 @@ func Init() {
 	godotenv.Load()
 
 	// 连接数据库
-	model.Database(os.Getenv("MYSQL_DSN"))
+	model.Database("root:mysql123@tcp(127.0.0.1:3306)/xmall?charset=utf8&parseTime=True&loc=Local")
+	cache.Redis()
 }
