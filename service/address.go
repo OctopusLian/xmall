@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-08 22:26:40
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-08 22:28:59
+ * @LastEditTime: 2022-06-09 15:19:34
  */
 package service
 
@@ -14,6 +14,7 @@ import (
 	"xmall/serializer"
 )
 
+//地址管理
 type AddressService struct {
 	ID        uint   `form:"id" json:"id"`
 	UserID    uint   `form:"user_id" json:"user_id"`
@@ -23,7 +24,6 @@ type AddressService struct {
 	AddressID uint   `form:"address_id" json:"address_id"`
 }
 
-// Create 创建购物车
 func (service *AddressService) Create() serializer.Response {
 	var address model.Address
 	code := e.SUCCESS
@@ -62,7 +62,6 @@ func (service *AddressService) Create() serializer.Response {
 	}
 }
 
-// Delete 删除购物车
 func (service *AddressService) Delete() serializer.Response {
 	var address model.Address
 	code := e.SUCCESS
@@ -94,7 +93,6 @@ func (service *AddressService) Delete() serializer.Response {
 	}
 }
 
-// 购物车列表
 func (service *AddressService) Show(id string) serializer.Response {
 	var addresses []model.Address
 	code := e.SUCCESS
@@ -117,7 +115,6 @@ func (service *AddressService) Show(id string) serializer.Response {
 	}
 }
 
-// Update 修改购物车信息
 func (service *AddressService) Update() serializer.Response {
 	address := model.Address{
 		UserID:  service.UserID,
