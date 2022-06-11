@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:44:15
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-11 19:07:29
+ * @LastEditTime: 2022-06-11 19:23:41
  */
 package router
 
@@ -25,6 +25,7 @@ func NewRouter() *gin.Engine {
 		v1.GET("product/:id", api.ShowProduct)      //商品详情
 		v1.GET("/notices", api.ShowNotice)          //查看公告详情
 		v1.GET("carousels", api.ListCarousels)      //获取轮播图
+		v1.GET("payments", api.ConfirmPay)          //接收支付回调接口
 
 		// 需要登录保护的
 		v1.Use(middleware.JWT())
@@ -48,6 +49,7 @@ func NewRouter() *gin.Engine {
 			v1.GET("user/:id/orders", api.ListOrders)   //订单列表
 			v1.GET("orders/:num", api.ShowOrder)        //订单详情
 			v1.GET("counts/:id", api.ShowCount)         //获取数量
+			v1.POST("payments", api.InitPay)            //初始化支付
 		}
 	}
 	//管理员
