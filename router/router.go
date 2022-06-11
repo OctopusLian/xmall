@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:44:15
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-09 22:32:59
+ * @LastEditTime: 2022-06-11 19:07:29
  */
 package router
 
@@ -47,6 +47,7 @@ func NewRouter() *gin.Engine {
 			v1.POST("orders", api.CreateOrder)          //创建订单
 			v1.GET("user/:id/orders", api.ListOrders)   //订单列表
 			v1.GET("orders/:num", api.ShowOrder)        //订单详情
+			v1.GET("counts/:id", api.ShowCount)         //获取数量
 		}
 	}
 	//管理员
