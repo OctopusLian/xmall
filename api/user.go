@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:39:37
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 17:19:23
+ * @LastEditTime: 2022-06-11 19:33:12
  */
 package api
 
@@ -82,4 +82,28 @@ func CheckToken(c *gin.Context) {
 		Status: 200,
 		Msg:    "ok",
 	})
+}
+
+// SendEmail 发送邮件接口
+func SendEmail(c *gin.Context) {
+	var service service.EmailService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Send()
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
+	}
+}
+
+// VaildEmail 绑定和解绑邮箱接口
+func VaildEmail(c *gin.Context) {
+	var service service.EmailService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.Vaild()
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, ErrorResponse(err))
+		logging.Info(err)
+	}
 }
