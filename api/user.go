@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:39:37
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-11 19:33:12
+ * @LastEditTime: 2022-06-12 19:55:59
  */
 package api
 
@@ -14,7 +14,6 @@ import (
 	"xmall/serializer"
 	"xmall/service"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -37,11 +36,12 @@ func ErrorResponse(err error) serializer.Response {
 
 // UserRegister 用户注册接口
 func UserRegister(c *gin.Context) {
-	session := sessions.Default(c)
-	userID := session.Get("userId")
+	// session := sessions.Default(c)
+	// userID := session.Get("userId")
+	// logging.Info("userID:", userID)
 	var service service.UserService
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.Register(userID)
+		res := service.Register()
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))
@@ -51,11 +51,11 @@ func UserRegister(c *gin.Context) {
 
 // UserLogin 用户登录接口
 func UserLogin(c *gin.Context) {
-	session := sessions.Default(c)
-	userID := session.Get("userId")
+	// session := sessions.Default(c)
+	// userID := session.Get("userId")
 	var service service.UserService
 	if err := c.ShouldBind(&service); err == nil {
-		res := service.Login(userID)
+		res := service.Login()
 		c.JSON(200, res)
 	} else {
 		c.JSON(200, ErrorResponse(err))

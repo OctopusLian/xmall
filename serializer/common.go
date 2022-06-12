@@ -3,15 +3,15 @@
  * @Author: neozhang
  * @Date: 2022-06-07 07:24:46
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 07:24:51
+ * @LastEditTime: 2022-06-12 19:14:13
  */
 package serializer
 
 // Response 基础序列化器
 type Response struct {
-	Status int         `json:"status"`
+	Status int         `json:"status"` //错误码
 	Data   interface{} `json:"data"`
-	Msg    string      `json:"msg"`
+	Msg    string      `json:"msg"` //错误信息
 	Error  string      `json:"error"`
 }
 

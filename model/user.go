@@ -3,11 +3,13 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:33:04
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 07:12:58
+ * @LastEditTime: 2022-06-12 19:52:45
  */
 package model
 
 import (
+	"xmall/logging"
+
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -17,7 +19,7 @@ type User struct {
 	gorm.Model
 	UserName       string `gorm:"unique"`
 	Email          string `gorm:"unique"`
-	PasswordDigest string
+	PasswordDigest string //加密后的密码
 	Nickname       string `gorm:"unique"`
 	Status         string
 	Limit          int
@@ -49,6 +51,7 @@ func (user *User) SetPassword(password string) error {
 		return err
 	}
 	user.PasswordDigest = string(bytes)
+	logging.Info("PasswordDigest_is:", user.PasswordDigest)
 	return nil
 }
 

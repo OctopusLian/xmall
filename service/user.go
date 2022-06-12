@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:44:54
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-07 17:17:36
+ * @LastEditTime: 2022-06-12 20:07:26
  */
 package service
 
@@ -19,7 +19,7 @@ import (
 
 type UserService struct {
 	ID        uint   `form:"id" json:"id"`
-	Nickname  string `form:"nickname" json:"nickname" binding:"required,min=2,max=10"`
+	Nickname  string `form:"nickname" json:"nickname"`
 	UserName  string `form:"user_name" json:"user_name" binding:"required,min=5,max=15"`
 	Password  string `form:"password" json:"password" binding:"required,min=8,max=16"`
 	Challenge string `form:"challenge" json:"challenge"`
@@ -29,7 +29,8 @@ type UserService struct {
 }
 
 // Register 用户注册
-func (service *UserService) Register(userID interface{}) *serializer.Response {
+func (service *UserService) Register() *serializer.Response {
+	//注册时默认用户状态是激活的
 	user := model.User{
 		Nickname: service.Nickname,
 		UserName: service.UserName,
@@ -38,6 +39,7 @@ func (service *UserService) Register(userID interface{}) *serializer.Response {
 	code := e.SUCCESS
 
 	// 加密密码
+	logging.Info("user_original_password:", service.Password)
 	if err := user.SetPassword(service.Password); err != nil {
 		logging.Info(err)
 		code = e.ERROR_FAIL_ENCRYPTION
@@ -66,7 +68,7 @@ func (service *UserService) Register(userID interface{}) *serializer.Response {
 }
 
 // Login 用户登录函数
-func (service *UserService) Login(userID interface{}) serializer.Response {
+func (service *UserService) Login() serializer.Response {
 	var user model.User
 	var code int
 	if err := model.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
@@ -87,7 +89,8 @@ func (service *UserService) Login(userID interface{}) serializer.Response {
 		}
 	}
 
-	if user.CheckPassword(service.Password) == false {
+	if !user.CheckPassword(service.Password) {
+		//密码验证错误
 		code = e.ERROR_NOT_COMPARE
 		return serializer.Response{
 			Status: code,

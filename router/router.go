@@ -3,7 +3,7 @@
  * @Author: neozhang
  * @Date: 2022-06-06 22:44:15
  * @LastEditors: neozhang
- * @LastEditTime: 2022-06-11 19:35:33
+ * @LastEditTime: 2022-06-12 19:40:28
  */
 package router
 
@@ -31,7 +31,7 @@ func NewRouter() *gin.Engine {
 		// 需要登录保护的
 		v1.Use(middleware.JWT())
 		{
-			v1.GET("/ping", api.CheckToken)              //验证token
+			v1.GET("/ping", api.CheckToken)              //验证token TODO:暂定为成功，后期要改
 			v1.PUT("/user", api.UserUpdate)              //用户更新操作
 			v1.POST("user/sending-email", api.SendEmail) //发送邮件
 			v1.GET("/products/:id", api.ShowProduct)     //查询一个商品的详情
